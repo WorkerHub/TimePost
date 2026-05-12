@@ -192,8 +192,8 @@ adminRoutes.post('/system/settings/test-email', async (c) => {
 
   const result = await sendEmail(c.env, {
     to,
-    subject: 'AppTemplate Test Email',
-    html: '<p>This is a test email from AppTemplate. Your email configuration is working correctly.</p>',
+    subject: 'TimePost Test Email',
+    html: '<p>This is a test email from TimePost. Your email configuration is working correctly.</p>',
   })
 
   if (!result.success) {

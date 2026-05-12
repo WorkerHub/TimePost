@@ -71,7 +71,7 @@ authRoutes.post('/register', async (c) => {
 
     await sendEmail(c.env, {
       to: email,
-      subject: 'Verify your email - AppTemplate',
+      subject: 'Verify your email - TimePost',
       html: `<p>Click <a href="${new URL(c.req.url).origin}/verify-email?token=${verifyToken}">here</a> to verify your email.</p>`,
     })
 
@@ -224,7 +224,7 @@ authRoutes.post('/email/resend', async (c) => {
 
   await sendEmail(c.env, {
     to: email,
-    subject: 'Verify your email - AppTemplate',
+    subject: 'Verify your email - TimePost',
     html: `<p>Click <a href="${new URL(c.req.url).origin}/verify-email?token=${verifyToken}">here</a> to verify your email.</p>`,
   })
 
@@ -253,7 +253,7 @@ authRoutes.post('/password/forgot', async (c) => {
   const code = String(Math.floor(100000 + Math.random() * 900000))
   await c.env.KV.put(`pwd_reset:${user.id}`, code, { expirationTtl: 900 }) // 15 min
 
-  const appName = 'AppTemplate'
+  const appName = 'TimePost'
   await sendEmail(c.env, {
     to: email,
     subject: `Reset your password - ${appName}`,

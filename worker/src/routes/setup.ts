@@ -13,7 +13,7 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   smtp_config: '{}',
   resend_config: '{}',
   email_provider: 'none',
-  app_name: 'AppTemplate',
+  app_name: 'TimePost',
 }
 
 setupRoutes.get('/:secret', async (c) => {

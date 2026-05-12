@@ -1,4 +1,3 @@
--- AppTemplate database schema
 -- All table names use {prefix} placeholder, replaced at runtime
 
 CREATE TABLE IF NOT EXISTS {prefix}users (

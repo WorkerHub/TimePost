@@ -50,12 +50,12 @@ app.get('/api/system/info', async (c) => {
   try {
     const settings = await getAllSettings(c.env.DB, prefix)
     return c.json({
-      app_name: settings.app_name || 'AppTemplate',
+      app_name: settings.app_name || 'TimePost',
       version: typeof APP_VERSION !== 'undefined' ? APP_VERSION : '0.0.0',
       registration_enabled: settings.registration_enabled !== 'false',
     })
   } catch {
-    return c.json({ app_name: 'AppTemplate', version: typeof APP_VERSION !== 'undefined' ? APP_VERSION : '0.0.0', registration_enabled: true })
+    return c.json({ app_name: 'TimePost', version: typeof APP_VERSION !== 'undefined' ? APP_VERSION : '0.0.0', registration_enabled: true })
   }
 })
 

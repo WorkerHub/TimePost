@@ -106,7 +106,7 @@
   "about": {
     "title": "About",
     "version": "Version",
-    "description": "AppTemplate is a Cloudflare Workers application template with built-in authentication, 2FA, admin panel, and user settings. Clone it to start your next project.",
+    "description": "TimePost is a Cloudflare Workers application with built-in authentication, 2FA, admin panel.",
     "builtWith": "Built With",
     "sourceCode": "Source Code",
     "license": "License"

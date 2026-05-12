@@ -106,7 +106,7 @@
   "about": {
     "title": "关于",
     "version": "版本",
-    "description": "AppTemplate 是一款基于 Cloudflare Workers 的应用模板，内置身份认证、两步验证、管理后台和用户设置。克隆它即可开始您的下一个项目。",
+    "description": "TimePost 是一款基于 Cloudflare Workers 的应用，内置身份认证、两步验证、管理后台和用户设置。",
     "builtWith": "技术栈",
     "sourceCode": "源代码",
     "license": "开源协议"

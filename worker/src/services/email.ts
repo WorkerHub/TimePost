@@ -65,7 +65,7 @@ async function sendViaResend(env: Env, options: EmailOptions): Promise<{ success
   if (!config.api_key) return { success: false, error: 'Resend API key not configured' }
 
   const from = options.from || config.from || 'noreply@example.com'
-  const fromName = (options.fromName || config.from_name || 'AppTemplate').replace(/[\r\n]/g, '')
+  const fromName = (options.fromName || config.from_name || 'TimePost').replace(/[\r\n]/g, '')
 
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -98,7 +98,7 @@ async function sendViaSMTP(env: Env, options: EmailOptions): Promise<{ success: 
   if (!config.host) return { success: false, error: 'SMTP host not configured' }
 
   const from = options.from || config.from || 'noreply@example.com'
-  const fromName = (options.fromName || config.from_name || 'AppTemplate').replace(/[\r\n]/g, '')
+  const fromName = (options.fromName || config.from_name || 'TimePost').replace(/[\r\n]/g, '')
   const isImplicitTls = config.port === 465
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
