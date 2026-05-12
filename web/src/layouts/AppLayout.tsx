@@ -1,7 +1,7 @@
 import { Outlet, NavLink, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
-import { Home, Shield, LogOut, XCircle, Settings, User, ChevronDown, Info } from 'lucide-react'
+import { Home, Shield, LogOut, XCircle, Settings, User, ChevronDown, Info, Mail, Users, FileText } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { api } from '@/lib/api'
 
@@ -189,6 +189,9 @@ export function AppLayout() {
 
   const navItems = [
     { to: '/', icon: Home, label: t('nav.home') },
+    { to: '/emails', icon: Mail, label: t('emails.title') },
+    { to: '/contacts', icon: Users, label: t('contacts.title') },
+    { to: '/templates', icon: FileText, label: t('templates.title') },
   ]
 
   return (

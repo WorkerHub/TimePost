@@ -8,7 +8,12 @@ import { auth2faRoutes } from './routes/auth2fa'
 import { meRoutes } from './routes/me'
 import { adminRoutes } from './routes/admin'
 import { setupRoutes } from './routes/setup'
+import { contactsRoutes } from './routes/contacts'
+import { emailsRoutes } from './routes/emails'
+import { templatesRoutes } from './routes/templates'
 import { getAllSettings } from './db/queries/settings'
+import { findScheduledEmails, getEmailRecipients, updateEmailStatus } from './db/queries/emails'
+import { sendEmail } from './services/email'
 
 const app = new Hono<HonoEnv>()
 
@@ -34,6 +39,9 @@ app.route('/api/auth/2fa', auth2faRoutes)
 app.route('/api/me', meRoutes)
 app.route('/api/admin', adminRoutes)
 app.route('/api/setup', setupRoutes)
+app.route('/api/contacts', contactsRoutes)
+app.route('/api/emails', emailsRoutes)
+app.route('/api/templates', templatesRoutes)
 
 app.get('/api/health', (c) => c.json({ status: 'ok', timestamp: new Date().toISOString() }))
 
@@ -58,6 +66,47 @@ app.get('*', async (c) => {
   return c.env.ASSETS.fetch(new Request(new URL('/', c.req.url), c.req.raw))
 })
 
+async function handleScheduledEmails(env: HonoEnv['Bindings']): Promise<void> {
+  const prefix = getTablePrefix(env)
+  const emails = await findScheduledEmails(env.DB, prefix)
+
+  for (const email of emails) {
+    // Mark as sending to prevent double-send
+    await updateEmailStatus(env.DB, prefix, email.id, 'sending')
+
+    try {
+      const recipients = await getEmailRecipients(env.DB, prefix, email.id)
+
+      let allSent = true
+      let lastError = ''
+      for (const recipient of recipients) {
+        const result = await sendEmail(env, {
+          to: recipient.email,
+          subject: email.subject,
+          html: email.body_html,
+        })
+        if (!result.success) {
+          allSent = false
+          lastError = result.error ?? 'Unknown error'
+        }
+      }
+
+      if (allSent) {
+        await updateEmailStatus(env.DB, prefix, email.id, 'sent', { sent_at: new Date().toISOString() })
+      } else {
+        await updateEmailStatus(env.DB, prefix, email.id, 'failed', { error_message: lastError })
+      }
+    } catch (err) {
+      await updateEmailStatus(env.DB, prefix, email.id, 'failed', {
+        error_message: err instanceof Error ? err.message : String(err),
+      })
+    }
+  }
+}
+
 export default {
   fetch: app.fetch,
+  scheduled: async (event: ScheduledEvent, env: HonoEnv['Bindings']) => {
+    await handleScheduledEmails(env)
+  },
 }

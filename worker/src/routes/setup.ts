@@ -110,5 +110,50 @@ CREATE TABLE IF NOT EXISTS {prefix}system_settings (
   key        TEXT PRIMARY KEY,
   value      TEXT NOT NULL,
   updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS {prefix}contacts (
+  id          TEXT PRIMARY KEY,
+  user_id     TEXT NOT NULL REFERENCES {prefix}users(id) ON DELETE CASCADE,
+  name        TEXT NOT NULL,
+  email       TEXT NOT NULL,
+  notes       TEXT,
+  tags        TEXT,
+  created_at  TEXT NOT NULL,
+  updated_at  TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS {prefix}emails (
+  id            TEXT PRIMARY KEY,
+  user_id       TEXT NOT NULL REFERENCES {prefix}users(id) ON DELETE CASCADE,
+  subject       TEXT NOT NULL DEFAULT '',
+  body_html     TEXT NOT NULL DEFAULT '',
+  body_json     TEXT NOT NULL DEFAULT '{}',
+  status        TEXT NOT NULL DEFAULT 'draft',
+  scheduled_at  TEXT,
+  sent_at       TEXT,
+  error_message TEXT,
+  created_at    TEXT NOT NULL,
+  updated_at    TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS {prefix}email_recipients (
+  id          TEXT PRIMARY KEY,
+  email_id    TEXT NOT NULL REFERENCES {prefix}emails(id) ON DELETE CASCADE,
+  contact_id  TEXT,
+  name        TEXT NOT NULL,
+  email       TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS {prefix}email_templates (
+  id          TEXT PRIMARY KEY,
+  user_id     TEXT NOT NULL REFERENCES {prefix}users(id) ON DELETE CASCADE,
+  name        TEXT NOT NULL,
+  subject     TEXT NOT NULL DEFAULT '',
+  body_html   TEXT NOT NULL DEFAULT '',
+  body_json   TEXT NOT NULL DEFAULT '{}',
+  is_public   INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL,
+  updated_at  TEXT NOT NULL
 )`
 }

@@ -15,6 +15,10 @@ import { AdminAppPage } from '@/pages/admin/AdminAppPage'
 import { AdminEmailPage } from '@/pages/admin/AdminEmailPage'
 import { AdminSecurityPage } from '@/pages/admin/AdminSecurityPage'
 import { AboutPage } from '@/pages/about/AboutPage'
+import { EmailListPage } from '@/pages/emails/EmailListPage'
+import { EmailEditorPage } from '@/pages/emails/EmailEditorPage'
+import { ContactsPage } from '@/pages/contacts/ContactsPage'
+import { TemplatesPage } from '@/pages/templates/TemplatesPage'
 import type { ReactNode } from 'react'
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
@@ -57,6 +61,17 @@ export function App() {
               <Route index element={<HomePage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="about" element={<AboutPage />} />
+
+              {/* Email routes */}
+              <Route path="emails" element={<EmailListPage />} />
+              <Route path="emails/new" element={<EmailEditorPage />} />
+              <Route path="emails/:id/edit" element={<EmailEditorPage />} />
+
+              {/* Contacts */}
+              <Route path="contacts" element={<ContactsPage />} />
+
+              {/* Templates */}
+              <Route path="templates" element={<TemplatesPage />} />
 
               {/* Admin routes */}
               <Route path="admin" element={<AdminRoute><AdminPage /></AdminRoute>}>
